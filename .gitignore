@@ -1,0 +1,5 @@
+__pycache__/
+runs-index.json
+converted/
+run_assets_*/
+run-*.json
