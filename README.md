@@ -69,7 +69,7 @@ hand, the others lose their engine. Reconvert that query to fix it.
 Start the backend from your quent checkout:
 
 ```
-cargo run -p quent-simulator-server -- --output-dir /path/to/converted --analyzer-address 127.0.0.1:18080 --cors-address http://localhost:5173
+cargo run -p quent-simulator-server -- --output-dir /path/to/converted --analyzer-address 127.0.0.1:8080 --cors-address http://localhost:5173
 ```
 
 If the default collector port is already in use, set
@@ -78,7 +78,7 @@ If the default collector port is already in use, set
 Start the frontend from `ui/`, pointed at that backend:
 
 ```
-VITE_API_TARGET=http://127.0.0.1:18080 pnpm exec vite --port 5173 --strictPort
+VITE_API_TARGET=http://127.0.0.1:8080 pnpm exec vite --port 5173 --strictPort
 ```
 
 Then open `/profile/engine/<engine id>/query/<query id>`. `--list` prints the
