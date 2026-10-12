@@ -1,0 +1,23 @@
+{
+  "quent": {
+    "version": "0.1.0",
+    "commit": "edf7831d850e3d65313e471c58702526e5349b3a",
+    "branch": "main",
+    "dirty": true,
+    "remote": "git@github.com:cmatzenbach/quent.git",
+    "built_at": "2026-10-12T17:10:27+00:00"
+  },
+  "model": {
+    "name": "Simulator",
+    "package": "quent-simulator-instrumentation",
+    "source": {
+      "version": "0.1.0",
+      "commit": "edf7831d850e3d65313e471c58702526e5349b3a",
+      "branch": "main",
+      "dirty": true,
+      "remote": "git@github.com:cmatzenbach/quent.git",
+      "built_at": "2026-10-12T17:10:27+00:00"
+    },
+    "analyzer_package": "quent-simulator-analyzer"
+  }
+}
