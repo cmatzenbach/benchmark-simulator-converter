@@ -27,7 +27,7 @@ Only Sirius is supported today.
 Run it from the folder where you keep your run data:
 
 ```
-python3 /path/to/sirius_to_simulator.py --assets run_assets_<run id> --query 3 --out converted
+python3 /path/to/sirius_to_simulator.py --assets run_assets_<run id> --query <query number> --out converted
 ```
 
 - `--assets`: the extracted run folder.
