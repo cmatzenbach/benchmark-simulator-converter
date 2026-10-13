@@ -83,7 +83,7 @@ Then either use the UI to navigate to the run added, or open
 Run `python3 sirius_to_simulator.py --list` to print the path for every
 converted query. Restart the backend after converting more queries.
 
-If those ports are already taken (for example by another quent backend),
+If those ports are already taken (for example by another Quent backend),
 `quent-simulator-server --help` lists the options for changing them. Point the
 frontend at the new backend with `VITE_API_TARGET`.
 
