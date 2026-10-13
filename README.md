@@ -1,7 +1,7 @@
 # benchmark-simulator-converter
 
-Converts the telemetry from a Sirius benchmark run into events of quent's
-Simulator model, so you can open a real query in a locally running quent
+Converts the telemetry from a Sirius benchmark run into events of Quent's
+simulator model, so you can open a real query in a locally running Quent
 server and frontend.
 
 It is a one-off converter, not a live replay. It reads the run's telemetry
@@ -9,8 +9,8 @@ files and writes new ndjson files that `quent-simulator-server` can load.
 
 ## Why this exists
 
-The Sirius analyzer is pinned to an old quent revision and cannot be built
-against a current quent checkout. The Simulator model is something the current
+The Sirius analyzer is pinned to an specific Quent revision and cannot be built
+against a current Quent checkout. The simulator model is something the current
 server and frontend already understand, so the telemetry is mapped onto it.
 
 Only Sirius is supported today.
@@ -18,7 +18,7 @@ Only Sirius is supported today.
 ## Requirements
 
 - Python 3.10 or newer, standard library only.
-- A quent checkout, to run `quent-simulator-server` and the frontend.
+- A [Quent](https://github.com/rapidsai/quent) checkout, to run `quent-simulator-server` and the frontend.
 - An extracted run folder (`run_assets_<run id>/`) that contains `telemetry/`
   and a `classification.csv`.
 
@@ -66,16 +66,16 @@ hand, the others lose their engine. Reconvert that query to fix it.
 
 ## Viewing the result
 
-Start the backend from your quent checkout:
+Start the backend from your Quent checkout:
 
 ```
-cargo run -p quent-simulator-server -- --output-dir /path/to/converted --analyzer-address 127.0.0.1:8080 --cors-address http://localhost:5173
+cargo run -p quent-simulator-server -- --output-dir /path/to/converted
 ```
 
 If the default collector port is already in use, set
 `QUENT_COLLECTOR_ADDRESS`, for example `QUENT_COLLECTOR_ADDRESS=127.0.0.1:17836`.
 
-Start the frontend from `ui/`, pointed at that backend:
+Start the frontend from `ui/` as normal:
 
 ```
 VITE_API_TARGET=http://127.0.0.1:8080 pnpm exec vite --port 5173 --strictPort
