@@ -23,6 +23,7 @@ import argparse
 import csv
 import json
 import re
+import shutil
 import sys
 import uuid
 from dataclasses import dataclass, field
@@ -429,6 +430,7 @@ DEFAULT_MODEL_QMI = Path(__file__).with_name("model.qmi")
 
 def write_context(out_root: Path, ctx_name: str, converted: Converted, model_qmi: Path | None) -> Path:
     ctx_out = out_root / ctx_name
+    shutil.rmtree(ctx_out, ignore_errors=True)  # no stale entities from an earlier conversion
     for entity, events in converted.streams.items():
         directory = ctx_out / entity
         directory.mkdir(parents=True, exist_ok=True)
@@ -444,8 +446,12 @@ def write_context(out_root: Path, ctx_name: str, converted: Converted, model_qmi
 
 # --- run index -------------------------------------------------------------
 
-# Kept outside the output dir: the server treats every entry in there as a context.
-DEFAULT_INDEX = Path(__file__).with_name("runs-index.json")
+INDEX_NAME = "runs-index.json"
+
+
+def default_index_path(out: Path) -> Path:
+    """The index sits with the data it describes, so it follows the output dir."""
+    return out / INDEX_NAME
 RUN_ASSETS_PREFIX = "run_assets_"
 
 
@@ -535,12 +541,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--workload", default="tpcds_sf10")
     parser.add_argument("--out", type=Path, default=Path("converted"))
     parser.add_argument("--model-qmi", type=Path, help="model.qmi to use instead of the bundled one")
-    parser.add_argument("--index", type=Path, default=DEFAULT_INDEX, help="run index file")
+    parser.add_argument("--index", type=Path, help="run index file (default: <out>/runs-index.json)")
     parser.add_argument("--list", action="store_true", help="print the run index and exit")
     args = parser.parse_args(argv)
+    index_path = args.index or default_index_path(args.out)
 
     if args.list:
-        print(format_index(load_index(args.index)))
+        print(format_index(load_index(index_path)))
         return 0
     if not (args.assets or args.context):
         parser.error("one of --assets or --context is required")
@@ -554,12 +561,12 @@ def main(argv: list[str] | None = None) -> int:
         ctx, query = args.context, args.query or "0"
 
     run_id = run_id_from_assets(args.assets)
-    entries = load_index(args.index)
+    entries = load_index(index_path)
     owner = owns_engine(entries, run_id, ctx.name)
     converted = convert(ctx, query, args.workload, shared_engine_id(run_id), emit_engine=owner)
     out = write_context(args.out, ctx.name, converted, args.model_qmi)
     entry = index_entry(run_id, query, ctx.name, converted.report, owner)
-    save_index(args.index, upsert_entry(entries, entry))
+    save_index(index_path, upsert_entry(entries, entry))
     json.dump({"context": str(ctx), "output": str(out), **converted.report}, sys.stdout, indent=2)
     print()
     return 0

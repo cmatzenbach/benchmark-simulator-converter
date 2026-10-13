@@ -40,15 +40,15 @@ python3 /path/to/sirius_to_simulator.py --assets run_assets_<run id> --query <qu
   `--assets` and `--query`.
 - `--model-qmi <file>`: use a different `model.qmi` than the bundled one.
 - `--index <file>`: where the run index is kept. Defaults to
-  `runs-index.json` next to the script.
-- `--list`: print the run index and exit.
+  `runs-index.json` inside the `--out` directory.
+- `--list`: print the run index for the `--out` directory and exit.
 
 Only queries whose status is `gpu_completed` or `runtime_failed` have
 telemetry. `plan_rejected` queries have none. Run it once per query.
 
 ## Run index
 
-Each conversion adds a row to `runs-index.json`: run id, query number,
+Each conversion adds a row to `runs-index.json` in the output directory: run id, query number,
 context folder, engine and query ids, and the frontend path. Use `--list` to
 print it.
 
