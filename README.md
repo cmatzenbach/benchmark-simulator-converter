@@ -1,4 +1,4 @@
-# benchmark-run-simulator-converter
+# benchmark-simulator-converter
 
 Converts the telemetry from a Sirius benchmark run into events of quent's
 Simulator model, so you can open a real query in a locally running quent
