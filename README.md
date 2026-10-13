@@ -66,23 +66,26 @@ hand, the others lose their engine. Reconvert that query to fix it.
 
 ## Viewing the result
 
-Start the backend from your Quent checkout:
+Start the backend from your Quent repo:
 
 ```
 cargo run -p quent-simulator-server -- --output-dir /path/to/converted
 ```
 
-If the default collector port is already in use, set
-`QUENT_COLLECTOR_ADDRESS`, for example `QUENT_COLLECTOR_ADDRESS=127.0.0.1:17836`.
-
-Start the frontend from `ui/` as normal:
+Start the frontend from `ui/`:
 
 ```
-VITE_API_TARGET=http://127.0.0.1:8080 pnpm exec vite --port 5173 --strictPort
+pnpm run dev
 ```
 
-Then open `/profile/engine/<engine id>/query/<query id>`. `--list` prints the
-paths. Restart the backend after converting more queries.
+Then either use the UI to navigate to the run added, or open
+`/profile/engine/<engine id>/query/<query id>` on the frontend's address.
+Run `python3 sirius_to_simulator.py --list` to print the path for every
+converted query. Restart the backend after converting more queries.
+
+If those ports are already taken (for example by another quent backend),
+`quent-simulator-server --help` lists the options for changing them. Point the
+frontend at the new backend with `VITE_API_TARGET`.
 
 ## What is converted
 
